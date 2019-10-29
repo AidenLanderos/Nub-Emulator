@@ -3,7 +3,7 @@ Add-Type -AssemblyName WindowsBase
 Add-Type -AssemblyName PresentationCore
 $IsOn = $false
 $Mode = $false
-$ToggleTime = 100
+$DelayTime = 100
 $SpeedMultiplyer = 2
 
 $signature=@' 
@@ -27,11 +27,11 @@ $Rclick = [Windows.Input.Keyboard]::IsKeyDown([System.Windows.Input.Key]::N)
 
 if ($Enable){
 $IsOn = -not $IsOn
-Start-Sleep -Milliseconds $ToggleTime
+Start-Sleep -Milliseconds $DelayTime
 }
 if ($SwitchMode){
 $Mode = -not $Mode
-Start-Sleep -Milliseconds $ToggleTime
+Start-Sleep -Milliseconds $DelayTime
 }
 
 if ($G)
@@ -48,7 +48,7 @@ if ($H) {
 if ($B) {
  $PosX += 0
 
- if($Mode){
+if($Mode){
   $PosY += 1
  } else {
   $PosY += 2
@@ -58,10 +58,12 @@ if($IsOn){
 if ($Lclick){
  $SendMouseClick::mouse_event(0x00000002, 0, 0, 0, 0)
  $SendMouseClick::mouse_event(0x00000004, 0, 0, 0, 0)
+ Start-Sleep -Milliseconds $DelayTime
 }
 if ($Rclick){
  $SendMouseClick::mouse_event(0x00000008, 0, 0, 0, 0)
  $SendMouseClick::mouse_event(0x00000010, 0, 0, 0, 0)
+ Start-Sleep -Milliseconds $DelayTime
 }
   $Pos = [System.Windows.Forms.Cursor]::Position
   $x = ($pos.X) + ($PosX * $SpeedMultiplyer)
